@@ -1,6 +1,4 @@
-// Preferences.js
-
-import React, { useState } from 'react';
+import React from 'react';
 import Checkbox from '../../shared/Checkbox';
 
 function Preferences({
@@ -8,14 +6,11 @@ function Preferences({
   selectedPreferences = [],
   onPreferenceChange,
 }) {
-  const [currentPreferences, setCurrentPreferences] = useState(selectedPreferences)
-
   const handlePreferenceChange = (preference) => {
-    const updatedPreferences = currentPreferences.includes(preference)
-      ? currentPreferences.filter((pref) => pref !== preference)
-      : [...currentPreferences, preference];
+    const updatedPreferences = selectedPreferences.includes(preference)
+      ? selectedPreferences.filter((pref) => pref !== preference)
+      : [...selectedPreferences, preference];
 
-    setCurrentPreferences(updatedPreferences);
     onPreferenceChange(updatedPreferences);
   };
 
@@ -27,7 +22,7 @@ function Preferences({
           <li key={index} className="mb-2">
             <Checkbox
               value={preference}
-              checked={currentPreferences.includes(preference)}
+              checked={selectedPreferences.includes(preference)}
               onChange={() => handlePreferenceChange(preference)}
               className="text-blue-500"
             >

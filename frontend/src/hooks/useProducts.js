@@ -5,39 +5,63 @@ const useProducts = () => {
   const [preferences, setPreferences] = useState([]);
   const [features, setFeatures] = useState([]);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const products = await getProducts();
+        setLoading(true);
+        const fetchedProducts = await getProducts();
+        
+        if (!fetchedProducts || !Array.isArray(fetchedProducts) || fetchedProducts.length === 0) {
+          console.warn('Nenhum produto retornado do backend ou formato inválido');
+          setLoading(false);
+          return;
+        }
+        
+        console.log('Produtos carregados do backend:', fetchedProducts);
+        setProducts(fetchedProducts);
+        
         const allPreferences = [];
         const allFeatures = [];
 
-        setProducts(products);
+        fetchedProducts.forEach((product) => {
+          if (product.preferences && Array.isArray(product.preferences)) {
+            const productPreferences = product.preferences
+              .sort(() => Math.random() - 0.5)
+              .slice(0, 2);
+            allPreferences.push(...productPreferences);
+          }
 
-        products.forEach((product) => {
-          const productPreferences = product.preferences
-            .sort(() => Math.random() - 0.5)
-            .slice(0, 2);
-          allPreferences.push(...productPreferences);
-
-          const productFeatures = product.features
-            .sort(() => Math.random() - 0.5)
-            .slice(0, 2);
-          allFeatures.push(...productFeatures);
+          if (product.features && Array.isArray(product.features)) {
+            const productFeatures = product.features
+              .sort(() => Math.random() - 0.5)
+              .slice(0, 2);
+            allFeatures.push(...productFeatures);
+          }
         });
 
-        setPreferences(allPreferences);
-        setFeatures(allFeatures);
+        const uniquePreferences = [...new Set(allPreferences)];
+        const uniqueFeatures = [...new Set(allFeatures)];
+
+        console.log('Preferências disponíveis:', uniquePreferences);
+        console.log('Features disponíveis:', uniqueFeatures);
+
+        setPreferences(uniquePreferences);
+        setFeatures(uniqueFeatures);
       } catch (error) {
         console.error('Erro ao obter os produtos:', error);
+        setError(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  return { preferences, features, products };
+  return { preferences, features, products, loading, error };
 };
 
 export default useProducts;
