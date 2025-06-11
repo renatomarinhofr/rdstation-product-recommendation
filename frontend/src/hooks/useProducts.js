@@ -20,7 +20,6 @@ const useProducts = () => {
           return;
         }
         
-        console.log('Produtos carregados do backend:', fetchedProducts);
         setProducts(fetchedProducts);
         
         const allPreferences = [];
@@ -44,9 +43,6 @@ const useProducts = () => {
 
         const uniquePreferences = [...new Set(allPreferences)];
         const uniqueFeatures = [...new Set(allFeatures)];
-
-        console.log('Preferências disponíveis:', uniquePreferences);
-        console.log('Features disponíveis:', uniqueFeatures);
 
         setPreferences(uniquePreferences);
         setFeatures(uniqueFeatures);

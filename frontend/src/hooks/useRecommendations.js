@@ -6,7 +6,6 @@ function useRecommendations(products) {
 
   useEffect(() => {
     if (products && products.length > 0) {
-      console.log('Produtos atualizados no useRecommendations:', products);
       setRecommendations(products);
     }
   }, [products]);

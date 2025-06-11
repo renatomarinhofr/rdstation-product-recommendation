@@ -11,26 +11,21 @@ function App() {
 
   useEffect(() => {
     if (products && products.length > 0 && !loading) {
-      console.log('App: Produtos carregados, recomendações iniciais vazias');
       setRecommendations([]);
     }
   }, [products, loading, setRecommendations]);
 
   const filterProducts = (formData) => {
-    console.log('App: Filtrando produtos com dados:', formData);
     if (!products || products.length === 0) {
       console.warn('App: Nenhum produto disponível para filtrar');
       return;
     }
     
-    const filteredProducts = recommendationService.getRecommendations(formData, products);
-    console.log('App: Produtos filtrados:', filteredProducts);
-    
+    const filteredProducts = recommendationService.getRecommendations(formData, products);    
     setRecommendations(filteredProducts);
   };
 
   const resetRecommendations = () => {
-    console.log('App: Resetando recomendações para array vazio');
     setRecommendations([]);
   };
 
