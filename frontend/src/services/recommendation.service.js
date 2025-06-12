@@ -67,8 +67,11 @@ const getRecommendations = (
   recommendedProducts.sort((a, b) => b.score - a.score);
   
   if (formData.selectedRecommendationType === 'single') {
-    const topProduct = [recommendedProducts[0]];
-    return topProduct;
+    const topScore = recommendedProducts[0].score;
+    const topProducts = recommendedProducts.filter(product => product.score === topScore);
+    
+    const lastTopProduct = topProducts[topProducts.length - 1];
+    return [lastTopProduct];
   }
 
   return recommendedProducts;
