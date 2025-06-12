@@ -22,7 +22,7 @@ function Form({ products, onFilter, onReset }) {
       console.warn('Nenhum produto disponível para filtrar');
       return;
     }
-        
+    
     onFilter(formData);
   };
 
